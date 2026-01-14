@@ -1,9 +1,9 @@
 ﻿namespace cSharpApiFunko.Models;
 
-public record Category()
+public record Category(string Nombre)
 {
-    private Guid Id { get; set; }
-    private string Nombre { get; set; } = string.Empty;
-    private DateTime CreatedAt { get; set; }
-    private DateTime UpdatedAt { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Nombre { get; set; } = Nombre;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; } =  DateTime.Now;
 }
