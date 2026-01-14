@@ -1,13 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "ls08qOuMt50=",
+  "dgSpecHash": "2GlgpVmbAgg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
+  "projectFilePath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sggz2\\.nuget\\packages\\csharpfunctionalextensions\\3.6.0\\csharpfunctionalextensions.3.6.0.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.2\\microsoft.entityframeworkcore.10.0.2.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.2\\microsoft.entityframeworkcore.abstractions.10.0.2.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.2\\microsoft.entityframeworkcore.analyzers.10.0.2.nupkg.sha512",
+    "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\10.0.2\\microsoft.entityframeworkcore.inmemory.10.0.2.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\nlog\\6.0.7\\nlog.6.0.7.nupkg.sha512"
   ],
   "logs": []

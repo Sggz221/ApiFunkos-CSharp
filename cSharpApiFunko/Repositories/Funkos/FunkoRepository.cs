@@ -29,22 +29,28 @@ public class FunkoRepository(Context context): IFunkoRepository
     public async Task<Funko> SaveAsync(Funko item)
     {
         log.Debug($"Guardando funko: {item}");
-        context.Funkos.Add(item);
+        var saved = await context.Funkos.AddAsync(item);
         await context.SaveChangesAsync();
         await context.Entry(item).Reference(f => f.Categoria).LoadAsync();
         log.Debug($"Funko guardado correctamente con ID: {item.Id}");
-        return item;
+        return saved.Entity;
     }
 
     public async Task<Funko?> UpdateAsync(long id, Funko item)
     {
         log.Debug($"Actualizando producto con ID: {id} |=> Datos; {item}");
-        item.Id = id;
-        context.Funkos.Update(item);
+        var found =  await GetByIdAsync(id);
+        if (found == null) return null;
+        found.Nombre = item.Nombre;
+        found.Categoria = item.Categoria;
+        found.CategoriaId = item.CategoriaId;
+        found.Precio = item.Precio;
+        found.UpdatedAt = DateTime.UtcNow;
+        var updated = await context.Funkos.AddAsync(found);
         await context.SaveChangesAsync();
         await context.Entry(item).Reference(f => f.Categoria).LoadAsync();
         log.Debug($"Funko actualizado correctamente para ID: {id}");
-        return item;
+        return updated.Entity;
     }
 
     public async Task<Funko?> DeleteAsync(long id)

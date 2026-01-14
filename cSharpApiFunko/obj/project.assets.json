@@ -51,6 +51,22 @@
       "Microsoft.EntityFrameworkCore.Analyzers/10.0.2": {
         "type": "package"
       },
+      "Microsoft.EntityFrameworkCore.InMemory/10.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.2"
+        },
+        "compile": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NLog/6.0.7": {
         "type": "package",
         "compile": {
@@ -132,6 +148,21 @@
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
+    "Microsoft.EntityFrameworkCore.InMemory/10.0.2": {
+      "sha512": "tW3LlDffLljRCGG6w7D1Uz8eI7r+uZ/prpCKutlp+ZILTjxHmkYGYQg+veBbjZ1nZe5vpIr3Z51qMF6rlmdX5A==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/10.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.10.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
+      ]
+    },
     "NLog/6.0.7": {
       "sha512": "16kwDY6+/TCBToyXekpcl5mxprUWuXqltdOK26w44E0rTQTiRCjXv1VVLDtSbgMCR1RirVvr+V/9T+76cwuqnw==",
       "type": "package",
@@ -159,6 +190,7 @@
     "net10.0": [
       "CSharpFunctionalExtensions >= 3.6.0",
       "Microsoft.EntityFrameworkCore >= 10.0.2",
+      "Microsoft.EntityFrameworkCore.InMemory >= 10.0.2",
       "NLog >= 6.0.7"
     ]
   },
@@ -168,11 +200,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
+      "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
       "projectName": "cSharpApiFunko",
-      "projectPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
+      "projectPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
       "packagesPath": "C:\\Users\\sggz2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\obj\\",
+      "outputPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sggz2\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -211,6 +243,10 @@
             "version": "[3.6.0, )"
           },
           "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[10.0.2, )"
+          },
+          "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[10.0.2, )"
           },

@@ -1,7 +1,18 @@
+using cSharpApiFunko.DataBase;
+using cSharpApiFunko.Repositories.Categorias;
+using cSharpApiFunko.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<Context>(options => 
+    options.UseInMemoryDatabase("FunkoDb"));
+
+builder.Services.AddScoped<IFunkoRepository, FunkoRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IFunkoService, FunkoService>();
 
 var app = builder.Build();
 

@@ -52,9 +52,6 @@ public class FunkoService(IFunkoRepository funkoRepository,ICategoryRepository c
     public async Task<Result<FunkoResponseDto, FunkoError>> UpdateAsync(long id, FunkoRequestDto dto)
     {
         log.Debug($"Actualizando funko con ID: {id}");
-        var found = await funkoRepository.GetByIdAsync(id);
-        if (found == null)
-            return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con id: {id}"));
         if (!IsValid(dto))
             return Result.Failure<FunkoResponseDto, FunkoError>(new Validation("La categoria no es valida"));
 
@@ -62,8 +59,8 @@ public class FunkoService(IFunkoRepository funkoRepository,ICategoryRepository c
         var c =  await categoryRepository.GetByIdAsync(dto.Categoria);
         toSave.Categoria = c!;
         toSave.CategoriaId = c!.Id;
-        toSave.UpdatedAt = DateTime.Now;
-        await funkoRepository.UpdateAsync(id, toSave);
+        var found =  await funkoRepository.UpdateAsync(id, toSave);
+        if (found == null) return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con id: {id}"));
         cache.Remove(CachePrefix + toSave.Id); // Eliminamos de la cache
         return Result.Success<FunkoResponseDto, FunkoError>(toSave.ToResponse());
     }

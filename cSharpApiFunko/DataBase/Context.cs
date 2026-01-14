@@ -7,7 +7,7 @@ public class Context(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Funko> Funkos { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
-
+    
     private static void SeedData(ModelBuilder modelBuilder)
     {
         var c1 = new Category("DISNEY");

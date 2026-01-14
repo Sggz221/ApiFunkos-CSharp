@@ -12,8 +12,8 @@ public static class FunkoMapper
             Id = 0,
             Nombre = dto.Nombre,
             Precio = dto.Precio,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
     }
 
