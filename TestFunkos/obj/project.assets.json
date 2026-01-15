@@ -8,6 +8,19 @@
           "build/netstandard2.0/coverlet.collector.targets": {}
         }
       },
+      "ErrorOr/2.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ErrorOr.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/ErrorOr.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.ApplicationInsights/2.22.0": {
         "type": "package",
         "compile": {
@@ -896,6 +909,23 @@
         "coverlet-icon.png",
         "coverlet.collector.6.0.4.nupkg.sha512",
         "coverlet.collector.nuspec"
+      ]
+    },
+    "ErrorOr/2.0.1": {
+      "sha512": "aje9lUVEAsusPFmaRcVM5EUqWBofd7hYtb9N8+ycgPYrtOzyFajMpzRgIO4uuiCllNLBc3x48+cpA+4v4koUDQ==",
+      "type": "package",
+      "path": "erroror/2.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "erroror.2.0.1.nupkg.sha512",
+        "erroror.nuspec",
+        "icon-square.png",
+        "lib/net6.0/ErrorOr.dll",
+        "lib/net6.0/ErrorOr.xml",
+        "lib/netstandard2.0/ErrorOr.dll",
+        "lib/netstandard2.0/ErrorOr.xml"
       ]
     },
     "Microsoft.ApplicationInsights/2.22.0": {
@@ -2075,6 +2105,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "ErrorOr >= 2.0.1",
       "Microsoft.EntityFrameworkCore.InMemory >= 10.0.2",
       "Microsoft.NET.Test.Sdk >= 17.14.0",
       "NUnit >= 4.3.2",
@@ -2089,11 +2120,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\TestFunkos.csproj",
+      "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\TestFunkos.csproj",
       "projectName": "TestFunkos",
-      "projectPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\TestFunkos.csproj",
+      "projectPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\TestFunkos.csproj",
       "packagesPath": "C:\\Users\\sggz2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\obj\\",
+      "outputPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sggz2\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2126,6 +2157,10 @@
       "net10.0": {
         "targetAlias": "net10.0",
         "dependencies": {
+          "ErrorOr": {
+            "target": "Package",
+            "version": "[2.0.1, )"
+          },
           "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[10.0.2, )"

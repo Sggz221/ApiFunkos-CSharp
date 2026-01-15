@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\TestFunkos.csproj": {}
+    "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\TestFunkos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\TestFunkos.csproj": {
+    "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\TestFunkos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\TestFunkos.csproj",
+        "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\TestFunkos.csproj",
         "projectName": "TestFunkos",
-        "projectPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\TestFunkos.csproj",
+        "projectPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\TestFunkos.csproj",
         "packagesPath": "C:\\Users\\sggz2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\TestFunkos\\obj\\",
+        "outputPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\TestFunkos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sggz2\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -44,6 +44,10 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "ErrorOr": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[10.0.2, )"

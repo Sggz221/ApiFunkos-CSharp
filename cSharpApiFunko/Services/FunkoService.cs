@@ -5,78 +5,108 @@ using cSharpApiFunko.Models.Dto;
 using cSharpApiFunko.Repositories.Categorias;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Caching.Memory;
-using NLog;
 
 namespace cSharpApiFunko.Services;
 
-public class FunkoService(IFunkoRepository funkoRepository,ICategoryRepository categoryRepository , IMemoryCache cache) : IFunkoService
+public class FunkoService(
+    IFunkoRepository funkoRepository,
+    ICategoryRepository categoryRepository, 
+    IMemoryCache cache,
+    ILogger<FunkoService> log
+) : IFunkoService
 {
-    private static Logger log = LogManager.GetCurrentClassLogger();
-
     private const string CachePrefix = "funko:";
     private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(5);
 
     public async Task<Result<FunkoResponseDto, FunkoError>> GetByIdAsync(long id)
     {
-        log.Debug($"Buscando funko con ID: {id}");
+        log.LogDebug("Buscando funko con ID: {Id}", id); // Uso de LogDebug
+        
         var cacheKey = $"{CachePrefix}:{id}";
         if (cache.TryGetValue(cacheKey, out Funko? cachedFunko))
+        {
             if (cachedFunko != null)
+            {
+                log.LogInformation("Funko recuperado de la caché: {Id}", id);
                 return Result.Success<FunkoResponseDto, FunkoError>(cachedFunko.ToResponse());
+            }
+        }
         
         var funko = await funkoRepository.GetByIdAsync(id);
-        return funko != null ? Result.Success<FunkoResponseDto, FunkoError>(funko.ToResponse())
-                .Tap(_ => cache.Set(CachePrefix, funko)) : 
-            Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con ID: {id}"));
+        
+        if (funko != null)
+        {
+            return Result.Success<FunkoResponseDto, FunkoError>(funko.ToResponse())
+                .Tap(_ => cache.Set(cacheKey, funko, _cacheDuration));
+        }
+
+        log.LogWarning("No se encontró el funko con ID: {Id}", id);
+        return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con ID: {id}"));
     }
 
-    public async Task<List<FunkoResponseDto>> GetAllAsync()
+    public async Task<Result<List<FunkoResponseDto>, FunkoError>> GetAllAsync()
     {
-        log.Debug($"Buscando funko con ID: {CachePrefix}");
+        log.LogDebug("Buscando todos los funkos");
         var list = await funkoRepository.GetAllAsync();
-        return list.Select(f => f.ToResponse()).ToList();
+        return Result.Success<List<FunkoResponseDto>, FunkoError>
+            (list.Select(f => f.ToResponse()).ToList());
     }
 
     public async Task<Result<FunkoResponseDto, FunkoError>> SaveAsync(FunkoRequestDto dto)
     {
-        log.Debug($"Guardando funko: {dto}");
-        if (!IsValid(dto)) return Result.Failure<FunkoResponseDto, FunkoError>(new Validation("La categoria no es valida"));
+        log.LogInformation("Guardando nuevo funko: {Nombre}", dto.Nombre);
+        
+        if (!await IsValid(dto)) 
+            return Result.Failure<FunkoResponseDto, FunkoError>(new Validation("La categoria no es valida"));
+        
         var c = await categoryRepository.GetByIdAsync(dto.Categoria);
         var funko = dto.ToModel();
-        funko.Categoria = c!; // No sera null porque lo comprueba IsValid()
+        funko.Categoria = c!;
         funko.CategoriaId = c!.Id;
+        
         var result = await funkoRepository.SaveAsync(funko);
         return Result.Success<FunkoResponseDto, FunkoError>(result.ToResponse());
     }
 
     public async Task<Result<FunkoResponseDto, FunkoError>> UpdateAsync(long id, FunkoRequestDto dto)
     {
-        log.Debug($"Actualizando funko con ID: {id}");
-        if (!IsValid(dto))
+        log.LogInformation("Actualizando funko con ID: {Id}", id);
+        
+        if (!await IsValid(dto))
             return Result.Failure<FunkoResponseDto, FunkoError>(new Validation("La categoria no es valida"));
 
         var toSave = dto.ToModel();
-        var c =  await categoryRepository.GetByIdAsync(dto.Categoria);
+        var c = await categoryRepository.GetByIdAsync(dto.Categoria);
+        toSave.Id = id;
         toSave.Categoria = c!;
         toSave.CategoriaId = c!.Id;
-        var found =  await funkoRepository.UpdateAsync(id, toSave);
-        if (found == null) return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con id: {id}"));
-        cache.Remove(CachePrefix + toSave.Id); // Eliminamos de la cache
+        
+        var found = await funkoRepository.UpdateAsync(id, toSave);
+        if (found == null) 
+            return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con id: {id}"));
+        
+        cache.Remove(CachePrefix + id);
         return Result.Success<FunkoResponseDto, FunkoError>(toSave.ToResponse());
     }
 
     public async Task<Result<FunkoResponseDto, FunkoError>> DeleteAsync(long id)
     {
-        log.Debug($"Eliminando funko con ID: {id}");
+        log.LogWarning("Eliminando funko con ID: {Id}", id);
         var deleted = await funkoRepository.DeleteAsync(id);
-        return deleted != null ? Result.Success<FunkoResponseDto, FunkoError>(deleted.ToResponse())
-            .Tap(_ => cache.Remove(CachePrefix+id)) :
-            Result.Failure<FunkoResponseDto, FunkoError>(new  NotFound($"No se encontro funko con ID: {id}"));
+        
+        if (deleted != null)
+        {
+            cache.Remove(CachePrefix + id);
+            return Result.Success<FunkoResponseDto, FunkoError>(deleted.ToResponse());
+        }
+
+        return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con ID: {id}"));
     }
 
-    private bool IsValid(FunkoRequestDto f)
+    private async Task<bool> IsValid(FunkoRequestDto f)
     {
-        log.Debug($"Validando funko: {f}");
-        return categoryRepository.GetByIdAsync(f.Categoria).Result != null; // null => false | existe => true  
+        log.LogDebug("Validando categoría para funko: {Categoria}", f.Categoria);
+        var category = await categoryRepository.GetByIdAsync(f.Categoria);
+        return category != null;
     }
 }

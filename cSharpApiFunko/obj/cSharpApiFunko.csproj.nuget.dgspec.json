@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj": {}
+    "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj": {
+    "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
+        "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
         "projectName": "cSharpApiFunko",
-        "projectPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
+        "projectPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
         "packagesPath": "C:\\Users\\sggz2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\obj\\",
+        "outputPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sggz2\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -48,6 +48,10 @@
             "CSharpFunctionalExtensions": {
               "target": "Package",
               "version": "[3.6.0, )"
+            },
+            "ErrorOr": {
+              "target": "Package",
+              "version": "[2.0.1, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

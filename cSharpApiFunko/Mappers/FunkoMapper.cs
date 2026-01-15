@@ -22,7 +22,7 @@ public static class FunkoMapper
         return new FunkoResponseDto(
             model.Id,
             model.Nombre,
-            model.Categoria.Nombre,
+            model.Categoria!.Nombre,
             model.Precio);
     }
 }

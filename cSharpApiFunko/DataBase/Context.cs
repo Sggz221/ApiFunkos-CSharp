@@ -3,21 +3,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cSharpApiFunko.DataBase;
 
-public class Context(DbContextOptions options) : DbContext(options)
+public class Context(DbContextOptions options, ILogger<Context> log) : DbContext(options)
 {
     public DbSet<Funko> Funkos { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
     
-    private static void SeedData(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        SeedData(modelBuilder); // Llamamos al metodo para poblar la BD
+    }
+    
+    private void SeedData(ModelBuilder modelBuilder)
+    {
+        log.LogInformation("Poblando BD de Categorias...");
         var c1 = new Category("DISNEY");
         var c2 = new Category("MARVEL");
         var c3 = new Category("HARRY_POTTER");
         var c4 = new Category("ANIME");
         var c5 = new Category("HORROR");
-
+        
         modelBuilder.Entity<Category>().HasData(c1, c2, c3, c4, c5);
-
+        log.LogInformation($"Categorias: {c1}, {c2}, {c3}, {c4}, {c5}");
+        log.LogInformation("Poblando BD de Funkos...");
         modelBuilder.Entity<Funko>().HasData(
             new Funko { 
                 Id = 1, 
@@ -92,5 +100,6 @@ public class Context(DbContextOptions options) : DbContext(options)
                     CategoriaId = c4.Id // ANIME
             }
         );
+        log.LogInformation("Funkos cargados en la BD");
     }
 }

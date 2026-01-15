@@ -15,6 +15,19 @@
           }
         }
       },
+      "ErrorOr/2.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ErrorOr.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/ErrorOr.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore/10.0.2": {
         "type": "package",
         "dependencies": {
@@ -103,6 +116,23 @@
         "lib/netstandard2.0/CSharpFunctionalExtensions.xml"
       ]
     },
+    "ErrorOr/2.0.1": {
+      "sha512": "aje9lUVEAsusPFmaRcVM5EUqWBofd7hYtb9N8+ycgPYrtOzyFajMpzRgIO4uuiCllNLBc3x48+cpA+4v4koUDQ==",
+      "type": "package",
+      "path": "erroror/2.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "erroror.2.0.1.nupkg.sha512",
+        "erroror.nuspec",
+        "icon-square.png",
+        "lib/net6.0/ErrorOr.dll",
+        "lib/net6.0/ErrorOr.xml",
+        "lib/netstandard2.0/ErrorOr.dll",
+        "lib/netstandard2.0/ErrorOr.xml"
+      ]
+    },
     "Microsoft.EntityFrameworkCore/10.0.2": {
       "sha512": "d3+XKbLSHPCu3vwpXECoXcFbvGKmAhEeUmc1xy2czmuPnEF7rZN2HP5ZGMwCMbAKk4B01+nS4HixSMo2Vf/Y9g==",
       "type": "package",
@@ -189,6 +219,7 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "CSharpFunctionalExtensions >= 3.6.0",
+      "ErrorOr >= 2.0.1",
       "Microsoft.EntityFrameworkCore >= 10.0.2",
       "Microsoft.EntityFrameworkCore.InMemory >= 10.0.2",
       "NLog >= 6.0.7"
@@ -200,11 +231,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
+      "projectUniqueName": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
       "projectName": "cSharpApiFunko",
-      "projectPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\cSharpApiFunko.csproj",
+      "projectPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
       "packagesPath": "C:\\Users\\sggz2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sggz2\\RiderProjects\\cSharpApiFunko\\cSharpApiFunko\\obj\\",
+      "outputPath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sggz2\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -241,6 +272,10 @@
           "CSharpFunctionalExtensions": {
             "target": "Package",
             "version": "[3.6.0, )"
+          },
+          "ErrorOr": {
+            "target": "Package",
+            "version": "[2.0.1, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",

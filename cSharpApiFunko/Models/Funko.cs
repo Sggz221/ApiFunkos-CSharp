@@ -10,16 +10,16 @@ public record Funko()
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; } = 0;
+    public long Id { get; set; }
     [Required]
     [StringLength(100)]
     public string Nombre { get; set; } =  string.Empty;
     public Guid CategoriaId { get; set; }
     [ForeignKey(nameof(CategoriaId))]
     [Required]
-    public Category Categoria { get; set; } = new Category("");
+    public Category? Categoria { get; set; }
     [Required]
-    public double Precio { get; set; } = 0.0;
+    public double Precio { get; set; }
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     [Required]
