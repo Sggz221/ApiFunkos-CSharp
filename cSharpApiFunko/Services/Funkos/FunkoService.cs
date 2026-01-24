@@ -6,7 +6,7 @@ using cSharpApiFunko.Repositories.Categorias;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace cSharpApiFunko.Services;
+namespace cSharpApiFunko.Services.Funkos;
 
 public class FunkoService(
     IFunkoRepository funkoRepository,
@@ -41,7 +41,7 @@ public class FunkoService(
         }
 
         log.LogWarning("No se encontró el funko con ID: {Id}", id);
-        return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con ID: {id}"));
+        return Result.Failure<FunkoResponseDto, FunkoError>(new NotFoundError($"No se encontro funko con ID: {id}"));
     }
 
     public async Task<Result<List<FunkoResponseDto>, FunkoError>> GetAllAsync()
@@ -57,7 +57,7 @@ public class FunkoService(
         log.LogInformation("Guardando nuevo funko: {Nombre}", dto.Nombre);
         
         if (!await IsValid(dto)) 
-            return Result.Failure<FunkoResponseDto, FunkoError>(new Validation("La categoria no es valida"));
+            return Result.Failure<FunkoResponseDto, FunkoError>(new ValidationError("La categoria no es valida"));
         
         var c = await categoryRepository.GetByIdAsync(dto.Categoria);
         var funko = dto.ToModel();
@@ -73,7 +73,7 @@ public class FunkoService(
         log.LogInformation("Actualizando funko con ID: {Id}", id);
         
         if (!await IsValid(dto))
-            return Result.Failure<FunkoResponseDto, FunkoError>(new Validation("La categoria no es valida"));
+            return Result.Failure<FunkoResponseDto, FunkoError>(new ValidationError("La categoria no es valida"));
 
         var toSave = dto.ToModel();
         var c = await categoryRepository.GetByIdAsync(dto.Categoria);
@@ -83,7 +83,7 @@ public class FunkoService(
         
         var found = await funkoRepository.UpdateAsync(id, toSave);
         if (found == null) 
-            return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con id: {id}"));
+            return Result.Failure<FunkoResponseDto, FunkoError>(new NotFoundError($"No se encontro funko con id: {id}"));
         
         cache.Remove(CachePrefix + id);
         return Result.Success<FunkoResponseDto, FunkoError>(toSave.ToResponse());
@@ -100,7 +100,7 @@ public class FunkoService(
             return Result.Success<FunkoResponseDto, FunkoError>(deleted.ToResponse());
         }
 
-        return Result.Failure<FunkoResponseDto, FunkoError>(new NotFound($"No se encontro funko con ID: {id}"));
+        return Result.Failure<FunkoResponseDto, FunkoError>(new NotFoundError($"No se encontro funko con ID: {id}"));
     }
 
     private async Task<bool> IsValid(FunkoRequestDto f)

@@ -1,6 +1,7 @@
 ﻿using cSharpApiFunko.Errors;
 using cSharpApiFunko.Models.Dto;
 using cSharpApiFunko.Services;
+using cSharpApiFunko.Services.Funkos;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
             onSuccess: funko => Ok(funko),
             onFailure:error => error switch
             {
-                Errors.NotFound => NotFound(new {message = error.Mensaje}),
+                Errors.NotFoundError => NotFound(new {message = error.Mensaje}),
                 _ => StatusCode(500, new { message = error.Mensaje})
             }
             );
@@ -41,7 +42,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
             onSuccess: funko => Ok(funko),
             onFailure:error => error switch
             {
-                Errors.NotFound => NotFound(new {message=error.Mensaje}),
+                Errors.NotFoundError => NotFound(new {message=error.Mensaje}),
                 _ => StatusCode(500, new { message = error.Mensaje })
             }
             );
@@ -56,11 +57,11 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
         log.LogInformation($"Creando nuevo funko: {request.Nombre}");
         var result = await service.SaveAsync(request);
         return result.Match(
-            onSuccess: funko => Ok(funko),
+            onSuccess: f => CreatedAtAction(nameof(GetById), new {id=f.Id}, f),
             onFailure: error => error switch
             {
-                Validation => BadRequest(new { message = error.Mensaje }),
-                Errors.Conflict => Conflict(new {message = error.Mensaje}),
+                ValidationError => BadRequest(new { message = error.Mensaje }),
+                Errors.ConflictError => Conflict(new {message = error.Mensaje}),
                 _ => StatusCode(500, error.Mensaje)
             }
         );
@@ -79,8 +80,8 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
             onSuccess: funko => Ok(funko),
             onFailure: error => error switch
             {
-                Errors.NotFound => NotFound(new { message = error.Mensaje }),
-                Validation => BadRequest(new { message = error.Mensaje }),
+                Errors.NotFoundError => NotFound(new { message = error.Mensaje }),
+                ValidationError => BadRequest(new { message = error.Mensaje }),
                 _ => StatusCode(500, error.Mensaje)
             }
         );
@@ -98,7 +99,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
             onSuccess: funko => Ok(funko),
             onFailure: error => error switch
             {
-                Errors.NotFound => NotFound(new { message = error.Mensaje }),
+                Errors.NotFoundError => NotFound(new { message = error.Mensaje }),
                 _ => StatusCode(500, error.Mensaje)
             }
         );

@@ -2,7 +2,7 @@
 using cSharpApiFunko.Models.Dto;
 using CSharpFunctionalExtensions;
 
-namespace cSharpApiFunko.Services;
+namespace cSharpApiFunko.Services.Funkos;
 
 public interface IFunkoService
 {

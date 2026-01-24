@@ -1,13 +1,13 @@
-﻿using System.CodeDom.Compiler;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace cSharpApiFunko.Models;
 
 [Table("Funkos")]
 public record Funko()
 {
+    public const string IMAGE_DEFAULT = "default.png";
+        
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }

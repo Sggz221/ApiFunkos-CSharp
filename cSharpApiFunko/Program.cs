@@ -1,6 +1,7 @@
 using cSharpApiFunko.DataBase;
 using cSharpApiFunko.Repositories.Categorias;
 using cSharpApiFunko.Services;
+using cSharpApiFunko.Services.Funkos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
