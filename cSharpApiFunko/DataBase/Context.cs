@@ -7,6 +7,7 @@ public class Context(DbContextOptions options, ILogger<Context> log) : DbContext
 {
     public DbSet<Funko> Funkos { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Usuario> Usuarios { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
