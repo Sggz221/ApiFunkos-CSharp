@@ -7,17 +7,17 @@ EXPOSE 5181
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FunkoApi/FunkoApi.csproj", "FunkoApi/"]
-RUN dotnet restore "FunkoApi/FunkoApi.csproj"
+COPY ["cSharpApiFunko/cSharpApiFunko.csproj", "cSharpApiFunko/"]
+RUN dotnet restore "cSharpApiFunko/cSharpApiFunko.csproj"
 COPY . .
-WORKDIR "/src/FunkoApi"
-RUN dotnet build "./FunkoApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/cSharpApiFunko"
+RUN dotnet build "cSharpApiFunko.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./FunkoApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "cSharpApiFunko.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "FunkoApi.dll"]
+ENTRYPOINT ["dotnet", "cSharpApiFunko.dll"]

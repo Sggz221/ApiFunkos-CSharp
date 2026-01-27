@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "UlWKtn558WQ=",
+  "dgSpecHash": "0SEuHqs0bcE=",
   "success": true,
   "projectFilePath": "C:\\Users\\sggz2\\RiderProjects\\ApiFunkos-CSharp\\cSharpApiFunko\\cSharpApiFunko.csproj",
   "expectedPackageFiles": [
@@ -56,6 +56,7 @@
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.2\\microsoft.entityframeworkcore.analyzers.10.0.2.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\10.0.2\\microsoft.entityframeworkcore.inmemory.10.0.2.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\10.0.2\\microsoft.entityframeworkcore.relational.10.0.2.nupkg.sha512",
+    "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.extensions.caching.stackexchangeredis\\10.0.2\\microsoft.extensions.caching.stackexchangeredis.10.0.2.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.0.1\\microsoft.identitymodel.abstractions.8.0.1.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.0.1\\microsoft.identitymodel.jsonwebtokens.8.0.1.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\microsoft.identitymodel.logging\\8.0.1\\microsoft.identitymodel.logging.8.0.1.nupkg.sha512",
@@ -67,6 +68,8 @@
     "C:\\Users\\sggz2\\.nuget\\packages\\nlog\\6.0.7\\nlog.6.0.7.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\npgsql\\10.0.0\\npgsql.10.0.0.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\10.0.0\\npgsql.entityframeworkcore.postgresql.10.0.0.nupkg.sha512",
+    "C:\\Users\\sggz2\\.nuget\\packages\\pipelines.sockets.unofficial\\2.2.8\\pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
+    "C:\\Users\\sggz2\\.nuget\\packages\\stackexchange.redis\\2.7.27\\stackexchange.redis.2.7.27.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\system.io.hashing\\8.0.0\\system.io.hashing.8.0.0.nupkg.sha512",
     "C:\\Users\\sggz2\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.1\\system.security.cryptography.pkcs.8.0.1.nupkg.sha512",

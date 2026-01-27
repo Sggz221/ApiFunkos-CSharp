@@ -1,6 +1,7 @@
 ﻿using cSharpApiFunko.Errors;
 using cSharpApiFunko.Models;
 using cSharpApiFunko.Models.Dto.Usuarios;
+using cSharpApiFunko.Repositories.Usuarios;
 
 namespace cSharpApiFunko.Services.Auth;
 
@@ -30,7 +31,7 @@ public class AuthService(
         var user = new Usuario
         {
             UserName = dto.UserName,
-            PasswordHash = dto.Password,
+            PasswordHash = passwordHash,
             Email = dto.Email,
             Role = UserRoles.USER
         };
@@ -83,7 +84,7 @@ public class AuthService(
         var existingUser = await usernameCheckTask;
         if (existingUser is not null)
         {
-            return UnitResult.Failure<AuthError>(new AuthConflictError("username ya en uso:" + existingUser.Username));
+            return UnitResult.Failure<AuthError>(new AuthConflictError("username ya en uso:" + existingUser.UserName));
         }
 
         var existingEmail = await emailCheckTask;

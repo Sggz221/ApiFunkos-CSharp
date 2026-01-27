@@ -7,14 +7,15 @@ using cSharpApiFunko.Notifications;
 using cSharpApiFunko.Repositories.Categorias;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
 namespace cSharpApiFunko.Services.Funkos;
 
 public class FunkoService(
     IFunkoRepository funkoRepository,
     ICategoryRepository categoryRepository, 
-    IMemoryCache cache,
+    IDistributedCache cache,
     ILogger<FunkoService> log,
     IEmailService emailService,
     IConfiguration configuration,
@@ -22,14 +23,21 @@ public class FunkoService(
 {
     private const string CachePrefix = "funko:";
     private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(5);
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        WriteIndented = false
+    };
     
     public async Task<Result<FunkoResponseDto, FunkoError>> GetByIdAsync(long id)
     {
-        log.LogDebug("Buscando funko con ID: {Id}", id); // Uso de LogDebug
+        log.LogDebug("Buscando funko con ID: {Id}", id);
         
         var cacheKey = $"{CachePrefix}:{id}";
-        if (cache.TryGetValue(cacheKey, out Funko? cachedFunko))
+        var cachedData = await cache.GetStringAsync(cacheKey);
+        if (cachedData != null)
         {
+            var cachedFunko = JsonSerializer.Deserialize<Funko>(cachedData, JsonOptions);
             if (cachedFunko != null)
             {
                 log.LogInformation("Funko recuperado de la caché: {Id}", id);
@@ -41,8 +49,12 @@ public class FunkoService(
         
         if (funko != null)
         {
-            return Result.Success<FunkoResponseDto, FunkoError>(funko.ToResponse())
-                .Tap(_ => cache.Set(cacheKey, funko, _cacheDuration));
+            var serialized = JsonSerializer.Serialize(funko, JsonOptions);
+            await cache.SetStringAsync(cacheKey, serialized, new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = _cacheDuration
+            });
+            return Result.Success<FunkoResponseDto, FunkoError>(funko.ToResponse());
         }
 
         log.LogWarning("No se encontró el funko con ID: {Id}", id);
@@ -125,7 +137,7 @@ public class FunkoService(
         });
         log.LogDebug("Notificacion de actualizacoin enviada");
         
-        cache.Remove(CachePrefix + id);
+        await cache.RemoveAsync(CachePrefix + id);
         return Result.Success<FunkoResponseDto, FunkoError>(toSave.ToResponse());
     }
     
@@ -166,7 +178,7 @@ public class FunkoService(
             foundFunko.UpdatedAt
         });
         log.LogDebug("Notificacion de actualizacion enviada (Patch)");
-        cache.Remove(CachePrefix + id);
+        await cache.RemoveAsync(CachePrefix + id);
         return foundFunko.ToResponse();
     }
     
@@ -177,7 +189,7 @@ public class FunkoService(
         
         if (deleted != null)
         {
-            cache.Remove(CachePrefix + id);
+            await cache.RemoveAsync(CachePrefix + id);
             await hubContext.Clients.Group("admins").SendAsync("FunkoEliminado", new
             {
                 deleted.Id,

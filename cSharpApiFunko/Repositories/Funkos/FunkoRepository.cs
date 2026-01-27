@@ -36,7 +36,7 @@ public class FunkoRepository(Context context, ILogger<FunkoRepository> log) : IF
         query = ApplySorting(query, filter.SortBy, filter.Direction);
 
         var items = await query
-            .Skip((filter.Page - 1) * filter.Size)
+            .Skip((Math.Max(filter.Page, 1) - 1) * filter.Size)
             .Take(filter.Size)
             .ToListAsync();
 

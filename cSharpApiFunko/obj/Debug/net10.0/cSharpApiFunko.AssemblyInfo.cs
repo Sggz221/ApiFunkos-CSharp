@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("cSharpApiFunko")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+432f72b29eb0ed9064a7426940fcf954fd0908a8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07e59149e04c08d7ee2cbc37761415a81d6abf7e")]
 [assembly: System.Reflection.AssemblyProductAttribute("cSharpApiFunko")]
 [assembly: System.Reflection.AssemblyTitleAttribute("cSharpApiFunko")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

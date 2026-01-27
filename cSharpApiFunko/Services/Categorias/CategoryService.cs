@@ -6,22 +6,30 @@ using cSharpApiFunko.Models.Dto.Categorias;
 using cSharpApiFunko.Repositories.Categorias;
 using cSharpApiFunko.Services.Categorias;
 using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
-public class CategoryService (ICategoryRepository repository, IMemoryCache cache) : ICategoryService
+public class CategoryService (ICategoryRepository repository, IDistributedCache cache) : ICategoryService
 {
     private const string CacheKeyPrefix = "Category_";
     private readonly ICategoryRepository _repository = repository;
-    private readonly IMemoryCache _cache = cache;
+    private readonly IDistributedCache _cache = cache;
     private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(5);
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        WriteIndented = false
+    };
 
 
     public async Task<Result<CategoryResponseDto, FunkoError>> GetByIdAsync(Guid id)
     {
         var cacheKey = CacheKeyPrefix +id;
 
-        if (_cache.TryGetValue(cacheKey, out Category? cachedCategory))
+        var cachedData = await _cache.GetStringAsync(cacheKey);
+        if (cachedData != null)
         {
+            var cachedCategory = JsonSerializer.Deserialize<Category>(cachedData, JsonOptions);
             if (cachedCategory != null)
             {
                 return cachedCategory.ToDto();
@@ -34,7 +42,11 @@ public class CategoryService (ICategoryRepository repository, IMemoryCache cache
             return Result.Failure<CategoryResponseDto, FunkoError>(new NotFoundError($"No se encontró la categoría con id: {id}."));
         }
         
-        _cache.Set(cacheKey, category, _cacheDuration);
+        var serialized = JsonSerializer.Serialize(category, JsonOptions);
+        await _cache.SetStringAsync(cacheKey, serialized, new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = _cacheDuration
+        });
         return category.ToDto();    
     }
 
@@ -82,7 +94,7 @@ public class CategoryService (ICategoryRepository repository, IMemoryCache cache
                 new NotFoundError($"No se encontró la categoría con id: {id}."));
         }
     
-        _cache.Remove(CacheKeyPrefix + id);
+        await _cache.RemoveAsync(CacheKeyPrefix + id);
         return updatedCategory.ToDto();
     }
 
@@ -96,7 +108,7 @@ public class CategoryService (ICategoryRepository repository, IMemoryCache cache
                 new NotFoundError($"No se encontró la categoría con id: {id}."));
         }
         
-        _cache.Remove(CacheKeyPrefix + id);
+        await _cache.RemoveAsync(CacheKeyPrefix + id);
         return deletedCategory.ToDto();
     }
 }

@@ -1,0 +1,49 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+
+# IDE folders
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Environment and secrets
+.env
+.env.local
+*.pfx
+*.p12
+
+# Test results
+TestResults/
+**/TestResults/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+LICENSE
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test projects (don't include in production image)
+**/TestFunkos/
+**/*.Tests/
+
+# Temporary files
+*.tmp
+*.temp

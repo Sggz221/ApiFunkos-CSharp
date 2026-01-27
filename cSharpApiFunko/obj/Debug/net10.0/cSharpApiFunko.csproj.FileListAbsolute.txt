@@ -1,6 +1,5 @@
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\appsettings.json
-C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\cSharpApiFunko.staticwebassets.runtime.json
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\cSharpApiFunko.staticwebassets.endpoints.json
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\cSharpApiFunko.exe
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\cSharpApiFunko.deps.json
@@ -81,3 +80,20 @@ C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\obj\Debug\net10.0\r
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\BouncyCastle.Cryptography.dll
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\MailKit.dll
 C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\MimeKit.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\AspNetCoreRateLimit.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\BCrypt.Net-Next.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Newtonsoft.Json.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Npgsql.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\sggz2\RiderProjects\ApiFunkos-CSharp\cSharpApiFunko\bin\Debug\net10.0\StackExchange.Redis.dll
