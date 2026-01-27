@@ -3,5 +3,4 @@
 public interface IRepository<ID, T>
 {
     Task<T?> GetByIdAsync(ID id);
-    Task<List<T>> GetAllAsync();
 }

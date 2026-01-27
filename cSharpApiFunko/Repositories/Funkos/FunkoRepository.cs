@@ -1,7 +1,8 @@
-﻿using cSharpApiFunko.DataBase;
+﻿using System.Linq.Expressions;
+using cSharpApiFunko.DataBase;
 using cSharpApiFunko.Models;
+using cSharpApiFunko.Models.Dto;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging; // Indispensable para ILogger
 
 namespace cSharpApiFunko.Repositories.Categorias;
 
@@ -15,13 +16,31 @@ public class FunkoRepository(Context context, ILogger<FunkoRepository> log) : IF
             .FirstOrDefaultAsync(f => f.Id == id);
     }
 
-    public async Task<List<Funko>> GetAllAsync()
+    public async Task<(IEnumerable<Funko> Items, int TotalCount)> GetAllAsync(FilterDto filter)
     {
-        log.LogDebug("Obteniendo todos los funkos...");
-        return await context.Funkos
-            .Include(f => f.Categoria)
-            .OrderBy(f => f.Id)
+        log.LogDebug("Buscando productos paginados con filtros");
+
+        var query = context.Funkos.Include(f => f.Categoria).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(filter.Nombre))
+            query = query.Where(p => EF.Functions.Like(p.Nombre, $"%{filter.Nombre}%"));
+
+        if (!string.IsNullOrWhiteSpace(filter.Categoria))
+            query = query.Where(p => EF.Functions.Like(p.Categoria!.Nombre, $"%{filter.Categoria}%"));
+
+        if (filter.MaxPrecio.HasValue)
+            query = query.Where(p => p.Precio <= filter.MaxPrecio.Value);
+        
+
+        var totalCount = await query.CountAsync();
+        query = ApplySorting(query, filter.SortBy, filter.Direction);
+
+        var items = await query
+            .Skip((filter.Page - 1) * filter.Size)
+            .Take(filter.Size)
             .ToListAsync();
+
+        return (items, totalCount);
     }
 
     public async Task<Funko> SaveAsync(Funko item)
@@ -36,7 +55,9 @@ public class FunkoRepository(Context context, ILogger<FunkoRepository> log) : IF
         log.LogInformation("Funko guardado correctamente con ID: {Id}", item.Id);
         return saved.Entity;
     }
-
+    
+    
+    
     public async Task<Funko?> UpdateAsync(long id, Funko item)
     {
         log.LogDebug("Actualizando producto con ID: {Id}", id);
@@ -51,6 +72,7 @@ public class FunkoRepository(Context context, ILogger<FunkoRepository> log) : IF
         found.Nombre = item.Nombre;
         found.CategoriaId = item.CategoriaId;
         found.Precio = item.Precio;
+        found.Image = item.Image;
         found.UpdatedAt = DateTime.UtcNow;
 
         context.Funkos.Update(found); // Uso de Update para asegurar el seguimiento
@@ -76,5 +98,19 @@ public class FunkoRepository(Context context, ILogger<FunkoRepository> log) : IF
 
         log.LogError("Error al borrar: No se encontro Funko con ID: {Id}", id);
         return null;
+    }
+    
+    private static IQueryable<Funko> ApplySorting(IQueryable<Funko> query, string sortBy, string direction)
+    {
+        var isDescending = direction.Equals("desc", StringComparison.OrdinalIgnoreCase);
+        Expression<Func<Funko, object>> keySelector = sortBy.ToLower() switch
+        {
+            "nombre" => p => p.Nombre,
+            "precio" => p => p.Precio,
+            "createdat" => p => p.CreatedAt,
+            "categoria" => p => p.Categoria!.Nombre,
+            _ => p => p.Id
+        };
+        return isDescending ? query.OrderByDescending(keySelector) : query.OrderBy(keySelector);
     }
 }

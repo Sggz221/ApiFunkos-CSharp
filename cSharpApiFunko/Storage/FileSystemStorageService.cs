@@ -1,5 +1,6 @@
 ﻿using cSharpApiFunko.Errors;
 using CSharpFunctionalExtensions;
+using Path = System.IO.Path;
 
 namespace cSharpApiFunko.Storage;
 
@@ -24,7 +25,7 @@ public class FileSystemStorageService: IStorageService
                                ?? ["image/jpeg", "image/png", "image/gif"];
 
         // Ruta absoluta: usar WebHostEnvironment.WebRootPath (apunta a wwwroot)
-        _rootPath = Path.Combine(env.WebRootPath, _uploadPath);
+        _rootPath = Path.Combine(env.ContentRootPath, "wwwroot", _uploadPath);
 
         // Crear directorio si no existe
         if (!Directory.Exists(_rootPath))

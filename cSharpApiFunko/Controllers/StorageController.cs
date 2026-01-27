@@ -1,21 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cSharpApiFunko.Storage;
+using Microsoft.AspNetCore.Mvc;
+using Path = System.IO.Path;
 
 namespace cSharpApiFunko.Controllers;
-
 [ApiController]
-[Route("storage")]
+[Route("[controller]")]
 public class StorageController(
     IWebHostEnvironment environment,
-    ILogger<StorageController> log): ControllerBase
+    ILogger<StorageController> logger,
+    IStorageService storage
+) : ControllerBase
 {
     private readonly IWebHostEnvironment _environment = environment;
-    private readonly ILogger<StorageController> _logger = log;
-    
+    private readonly ILogger<StorageController> _logger = logger;
+    private readonly IStorageService _storage = storage;
+
+
+
     [HttpGet("{**path}")]
     [ProducesResponseType(typeof(FileStreamResult), 200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     public IActionResult GetFile(string path)
+
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -57,6 +64,37 @@ public class StorageController(
             return StatusCode(500, new { error = "Error leyendo archivo", details = ex.Message });
         }
     }
+    
+    [HttpPost]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromQuery] string folder = "funkos")
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest(new { error = "No se ha proporcionado ningún archivo" });
+        }
+
+        // Ejecutamos el guardado usando el servicio inyectado
+        var result = await _storage.SaveFileAsync(file, folder);
+
+        if (result.IsFailure)
+        {
+            // El error viene de la validación interna de FunkoStorage
+            return BadRequest(new { error = result.Error.Mensaje });
+        }
+
+        // Construimos la URL pública (ej: http://localhost:5074/uploads/funkos/nombre.jpg)
+        var fileUrl = $"{Request.Scheme}://{Request.Host}{result.Value}";
+
+        return Created(fileUrl, new
+        {
+            fileName = Path.GetFileName(result.Value),
+            url = fileUrl,
+            relativePath = result.Value
+        });
+    }
+    
     private static string GetContentType(string extension)
     {
         return extension.ToLowerInvariant() switch

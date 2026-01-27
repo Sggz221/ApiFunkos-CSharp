@@ -1,26 +1,63 @@
 ﻿using cSharpApiFunko.DataBase;
 using cSharpApiFunko.Models;
+using cSharpApiFunko.Repositories.Categorias;
 using Microsoft.EntityFrameworkCore;
 
-namespace cSharpApiFunko.Repositories.Categorias;
+namespace FunkoApi.Repository;
 
-public class CategoryRepository(Context context, ILogger<CategoryRepository> log) : ICategoryRepository
+public class CategoryRepository(Context dataBaseContext) : ICategoryRepository
 {
-    public async Task<Category?> GetByIdAsync(string nombre)
+    public async Task<Category?> GetByNameAsync(string name)
     {
-        // Uso de LogDebug con logging estructurado para mayor eficiencia
-        log.LogDebug("Obteniendo categoria por nombre: {Nombre}", nombre);
-        
-        return await context.Categories
-            .FirstOrDefaultAsync(c => c.Nombre == nombre);
+        var foundCategory = await dataBaseContext.Categories
+            .FirstOrDefaultAsync(c => c.Nombre.ToLower() == name.ToLower());
+
+        return foundCategory;
+    }
+
+    public async Task<Category?> GetByIdAsync(Guid id) {
+        var foundCategory = await dataBaseContext.Categories.FindAsync(id);
+        return foundCategory;
     }
 
     public async Task<List<Category>> GetAllAsync()
     {
-        log.LogDebug("Buscando todas las categorias...");
-        
-        return await context.Categories
-            .OrderBy(c => c.Nombre)
-            .ToListAsync();
+        return await dataBaseContext.Categories.ToListAsync();
     }
+
+    public async Task<Category> CreateAsync(Category category)
+    {
+        var savedCategory = await dataBaseContext.Categories.AddAsync(category);
+        await dataBaseContext.SaveChangesAsync();
+        return savedCategory.Entity;
+    }
+
+    public async Task<Category?> UpdateAsync(Guid id, Category category)
+    {
+        var foundCategory = await dataBaseContext.Categories.FindAsync(id);
+
+        if (foundCategory != null)
+        {
+            foundCategory.Nombre = category.Nombre;
+            foundCategory.UpdatedAt = DateTime.UtcNow;
+            await dataBaseContext.SaveChangesAsync();
+            return foundCategory;
+        }
+
+        return null;
+    }
+
+    public async Task<Category?> DeleteAsync(Guid id)
+    {
+        var foundCategory = await dataBaseContext.Categories.FindAsync(id);
+
+        if (foundCategory != null)
+        {
+            dataBaseContext.Categories.Remove(foundCategory);
+            await dataBaseContext.SaveChangesAsync();
+            return foundCategory;
+        }
+        return null;
+    }
+
 }

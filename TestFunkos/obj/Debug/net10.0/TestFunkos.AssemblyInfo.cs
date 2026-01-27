@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TestFunkos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d7bad66940b1f626bba9162b78323cb96f2f273")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a1b9dbbb8647d5df1df112d16ab3e12247cde61")]
 [assembly: System.Reflection.AssemblyProductAttribute("TestFunkos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TestFunkos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

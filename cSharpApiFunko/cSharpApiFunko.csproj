@@ -20,14 +20,21 @@
     <ItemGroup>
       <PackageReference Include="CSharpFunctionalExtensions" Version="3.6.0" />
       <PackageReference Include="ErrorOr" Version="2.0.1" />
+      <PackageReference Include="GreenDonut" Version="15.1.12" />
+      <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.12" />
+      <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.12" />
+      <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.12" />
+      <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="15.1.12" />
+      <PackageReference Include="HotChocolate.Validation" Version="15.1.12" />
+      <PackageReference Include="MailKit" Version="4.14.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.2" />
+      <PackageReference Include="MimeKit" Version="4.14.0" />
       <PackageReference Include="NLog" Version="6.0.7" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Categorias\" />
-      <Folder Include="wwwroot\upload\" />
+      <Folder Include="wwwroot\uploads\funkos\" />
     </ItemGroup>
 
 </Project>

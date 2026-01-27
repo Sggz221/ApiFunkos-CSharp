@@ -12,6 +12,7 @@ public static class FunkoMapper
             Id = 0,
             Nombre = dto.Nombre,
             Precio = dto.Precio,
+            Image = dto.Image!,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -23,6 +24,7 @@ public static class FunkoMapper
             model.Id,
             model.Nombre,
             model.Categoria!.Nombre,
-            model.Precio);
+            model.Precio,
+            model.Image);
     }
 }
