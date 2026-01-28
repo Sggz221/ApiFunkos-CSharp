@@ -12,6 +12,7 @@ builder.Services.AddSignalR();
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddEmailServices();
+builder.Services.AddSecurityConfiguration(builder.Configuration);
 builder.Services.AddCorsConfiguration();
 builder.Services.AddGraphQLConfiguration();
 

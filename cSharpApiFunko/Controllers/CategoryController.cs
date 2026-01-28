@@ -1,6 +1,7 @@
 ﻿using cSharpApiFunko.Errors;
 using cSharpApiFunko.Models.Dto.Categorias;
 using cSharpApiFunko.Services.Categorias;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cSharpApiFunko.Controllers;
 
@@ -21,17 +22,19 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     //Devuelve un código 200 cuyo body es la lista de CategoryDTO
     [ProducesResponseType(typeof(IEnumerable<CategoryResponseDto>), StatusCodes.Status200OK)]
     //IActionResult es como el ResponseEntity de Java
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await service.GetAllAsync());
     }
     
     //El path es /categories/id
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetCategoryById")]
     //Devuelve un código 200 con el CategoryDTO como body
     [ProducesResponseType(typeof(CategoryResponseDto), StatusCodes.Status200OK)]
     //Devuelve un código 404 en caso de no encontrarse la Categoría
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var result = await service.GetByIdAsync(id);
@@ -57,6 +60,7 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     //Devuelve un código 409 en caso de que la categoría ya exista
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> PostAsync([FromBody] CategoryRequestDto request)
     {
         var result = await service.CreateAsync(request);
@@ -71,12 +75,11 @@ public class CategoriesController(ICategoryService service) : ControllerBase
         }
 
         //Devolvemos un 201
-        // 1. Nombre de la función que da el detalle (GetByIdAsync), en base a la cual se calcula la url donde podemos encontrar
-        // la Categoría recién creada.
-        // 2. Parámetros para esa función (el ID de la nueva Categoría)
+        // 1. Nombre de la ruta nombrada (GetCategoryById)
+        // 2. Parámetros para esa ruta (el ID de la nueva Categoría)
         // 3. El objeto creado en sí
-        return CreatedAtAction(
-            nameof(GetByIdAsync),
+        return CreatedAtRoute(
+            "GetCategoryById",
             new { id = result.Value.Id },
             result.Value);
     }
@@ -89,6 +92,7 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     //Devuelve un código 400 en caso de que el body tenga errores de validación
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> PutAsync(Guid id, [FromBody] CategoryRequestDto request)
     {
         var result = await service.UpdateAsync(id, request);
@@ -115,19 +119,16 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     [ProducesResponseType(typeof(CategoryResponseDto), StatusCodes.Status200OK)]
     //Devuelve un código 404 en caso de que la Categoría a eliminar no exista
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         var result = await service.DeleteAsync(id);
 
-        if (result.IsFailure)
+        if (!result.IsFailure) return Ok(result.Value);
+        if (result.Error is NotFoundError)
         {
-            if (result.Error is NotFoundError)
-            {
-                return NotFound(new { message = result.Error.Mensaje });
-            }
-            return BadRequest(new { message = result.Error.Mensaje });
+            return NotFound(new { message = result.Error.Mensaje });
         }
-
-        return Ok(result.Value);
+        return BadRequest(new { message = result.Error.Mensaje });
     }
 }

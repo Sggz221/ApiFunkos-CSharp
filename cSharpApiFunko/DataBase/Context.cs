@@ -102,5 +102,31 @@ public class Context(DbContextOptions options, ILogger<Context> log) : DbContext
             }
         );
         log.LogInformation("Funkos cargados en la BD");
+
+        log.LogInformation("Poblando BD de Usuarios...");
+        var admin = new Usuario
+        {
+            Id = 1,
+            UserName = "admin",
+            Email = "admin@admin.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin", workFactor: 11),
+            Role = UserRoles.ADMIN,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        var user = new Usuario
+        {
+            Id = 2,
+            UserName = "user",
+            Email = "user@user.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("user", workFactor: 11),
+            Role = UserRoles.USER,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        modelBuilder.Entity<Usuario>().HasData(admin, user);
+        log.LogInformation("Usuarios cargados en la BD");
     }
 }

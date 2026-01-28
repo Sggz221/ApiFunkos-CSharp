@@ -40,6 +40,7 @@ public static class MiddlewareConfiguration
         // CORS
         app.UseCors("AllowSignalR");
         
+        app.UseAuthentication();
         app.UseAuthorization();
         
         // REST Controllers

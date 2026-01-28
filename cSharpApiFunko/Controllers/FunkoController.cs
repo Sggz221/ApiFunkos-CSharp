@@ -10,7 +10,7 @@ using Path = System.IO.Path;
 namespace cSharpApiFunko.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 [Produces("application/json")]
 public class FunkoController(IFunkoService service, ILogger<FunkoController> log, IStorageService storageService): ControllerBase
 {
@@ -60,7 +60,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
     [HttpPost]
     [ProducesResponseType(typeof(FunkoResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [AllowAnonymous]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> Post([FromForm] FunkoRequestDto request, [FromForm] IFormFile? file)
     {
         log.LogInformation($"Creando nuevo funko: {request.Nombre}");
@@ -92,7 +92,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
     [ProducesResponseType(typeof(FunkoResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [AllowAnonymous]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> Put(long id, [FromForm] FunkoRequestDto request,[FromForm] IFormFile? file)
     {
         log.LogInformation($"Actualizando funko con ID: {id}");
@@ -127,6 +127,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     //Devuelve un código 409 en caso de que la categoría nueva no sea válida
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> PatchAsync(long id, [FromForm] FunkoPatchRequestDto request,[FromForm] IFormFile? file)
     {
         if (file != null)
@@ -151,7 +152,7 @@ public class FunkoController(IFunkoService service, ILogger<FunkoController> log
     [HttpDelete("{id:long}")]
     [ProducesResponseType(typeof(FunkoResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [AllowAnonymous]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> Delete(long id)
     {
         log.LogInformation($"Borrando funko con ID: {id}");

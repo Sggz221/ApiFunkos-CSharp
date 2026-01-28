@@ -12,7 +12,7 @@ public class Usuario
     [StringLength(50)]
     public string UserName { get; set; } =  string.Empty;
     [Required]
-    [StringLength(50)]
+    [StringLength(100)]
     public string PasswordHash { get; set; } =  string.Empty;
     [Required]
     [StringLength(50)]

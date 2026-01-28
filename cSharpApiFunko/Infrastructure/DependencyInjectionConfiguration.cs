@@ -1,5 +1,6 @@
 using cSharpApiFunko.Repositories.Categorias;
 using cSharpApiFunko.Repositories.Usuarios;
+using cSharpApiFunko.Services.Auth;
 using cSharpApiFunko.Services.Categorias;
 using cSharpApiFunko.Services.Funkos;
 using cSharpApiFunko.Storage;
@@ -26,6 +27,9 @@ public static class DependencyInjectionConfiguration
         // Servicios
         services.AddScoped<IFunkoService, FunkoService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IJwtTokenExtractor, JwtTokenExtractor>();
         services.AddScoped<IStorageService, FileSystemStorageService>();
         
         // Cache - Redis Distributed
