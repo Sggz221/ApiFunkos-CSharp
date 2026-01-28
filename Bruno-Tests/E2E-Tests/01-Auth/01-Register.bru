@@ -1,0 +1,28 @@
+meta {
+  name: 01-Register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/Auth/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "userName": "testuser_{{$timestamp}}",
+    "email": "testuser_{{$timestamp}}@example.com",
+    "password": "Password123!"
+  }
+}
+
+script:pre-request {
+  const timestamp = new Date().getTime();
+  bru.setVar("timestamp", timestamp);
+}
+
+assert {
+  res.status: eq 201
+}
