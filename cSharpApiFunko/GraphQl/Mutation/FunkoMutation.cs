@@ -2,6 +2,7 @@
 using cSharpApiFunko.Models.Dto;
 using cSharpApiFunko.Services.Funkos;
 using HotChocolate;
+using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 
 namespace cSharpApiFunko.GraphQl.Mutation;
@@ -10,6 +11,7 @@ public class FunkoMutation
 {
 
     [GraphQLDescription("Crea un nuevo Funko.")]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<FunkoResponseDto> CrearFunko(
         FunkoCreateInput input,
         [Service] IFunkoService service,
@@ -34,6 +36,7 @@ public class FunkoMutation
     }
 
     [GraphQLDescription("Actualiza un Funko.")]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<FunkoResponseDto> UpdateFunko(
         FunkoUpdateInput input,
         [Service] IFunkoService service,
@@ -59,6 +62,7 @@ public class FunkoMutation
     }
 
     [GraphQLDescription("Elimina un Funko.")]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<FunkoResponseDto> DeleteFunko(
         long id,
         [Service] IFunkoService service,
