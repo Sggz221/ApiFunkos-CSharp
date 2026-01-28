@@ -1,0 +1,23 @@
+meta {
+  name: GetFunkos
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:5180/funko
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"admin",
+    "password":"admin"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
